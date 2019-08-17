@@ -1,0 +1,600 @@
+﻿
+<script src="~/Scripts/vendors/Chart.js/dist/Chart.min.js"></script>
+
+<!-- /top navigation -->
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>
+                    Dashboard:
+                    <small>
+                        @Html.ActionLink("By Month", "Index", "Dashboard", null, new { @style = "color:red; font-weight:bold" }) -
+                        @Html.ActionLink("By Project", "ProjectBased", "Dashboard", null, new { @style = "color:green; font-weight:bold" }) -
+                        @Html.ActionLink("By Team", "MinutesWorked", "Dashboard", null, new { @style = "color:orange; font-weight:bold" })
+                    </small>
+                </h3>
+            </div>
+
+            <!--<div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-info-circle" style="color:#68e2f8"></i>
+                    </div>
+                    <div class="count" style="color:#68e2f8">@ViewBag.All_tickets_count</div>
+                    <h3>All Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "Index", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-gear" style="color:orange"></i>
+                    </div>
+                    <div class="count" style="color:orange">@ViewBag.All_pending_count</div>
+                    <h3>Pending Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "PendingTasks", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-meh-o" style="color:#808080"></i>
+                    </div>
+                    <div class="count">@ViewBag.All_onhold_count</div>
+                    <h3>Onhold Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "OnholdTasks", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-star" style="color:#a0cf51"></i>
+                    </div>
+                    <div class="count" style="color:#a0cf51">@ViewBag.All_completed_count</div>
+                    <h3>Completed Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "CompletedTasks", "Supports")</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+
+        <div class="row">
+          
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Tickets Assigned <small>(@DateTime.Now.Year)</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="mybarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Assigned <small>From begaining of <b>( @DateTime.Now )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartTodayTickets"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Minutes Worked <small>From begaining of <b>( @DateTime.Now )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartTodayMinutesWorked"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Minutes Worked <small>From begaining of <b>( @DateTime.Now.Year )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartMinutes"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Assigned Tickets<small>Graph</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Tickets <small>Assigned by individuals from begining of ( @DateTime.Now.Year )</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+<!-- /page content -->
+<!-- Chart.js -->
+<script>
+    Chart.defaults.global.legend = {
+        enabled: false
+    };
+
+    // Line chart
+    var ctx = document.getElementById("lineChart");
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"],
+            datasets: [{
+                label: "Completed Tickets",
+                backgroundColor: "rgba(38, 185, 154, 0.31)",
+                borderColor: "rgba(173, 255, 154, 0.7)",
+                pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointBorderWidth: 1,
+                data: [@ViewBag.FarhadC, @ViewBag.MehdiC, @ViewBag.KhalidC, @ViewBag.NaserC, @ViewBag.AzizC, @ViewBag.MasoodC, @ViewBag.ShafiqC, @ViewBag.SiwashC, @ViewBag.FardinC, @ViewBag.MirwaisC]
+
+            }, {
+                label: "All Tickets",
+                backgroundColor: "rgba(3, 88, 106, 0.3)",
+                borderColor: "rgba(3, 88, 106, 0.70)",
+                pointBorderColor: "rgba(3, 88, 106, 0.70)",
+                pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(151,187,205,1)",
+                pointBorderWidth: 1,
+                data: [@ViewBag.Farhad, @ViewBag.Mehdi, @ViewBag.Khalid, @ViewBag.Naser, @ViewBag.Aziz, @ViewBag.Masood, @ViewBag.Shafiq, @ViewBag.Siawash, @ViewBag.Fardin, @ViewBag.Mirwais]
+            }, {
+                label: "Pending Tickets",
+                backgroundColor: "rgba(255, 0, 0, 0.3)",
+                borderColor: "rgba(255, 0, 0, 0.70)",
+                pointBorderColor: "rgba(3, 22, 5, 0.2)",
+                pointBackgroundColor: "rgba(33, 33, 400, 0.70)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(255,62,150)",
+                pointBorderWidth: 1,
+                data: [@ViewBag.FarhadP, @ViewBag.MehdiP, @ViewBag.KhalidP, @ViewBag.NaserP, @ViewBag.AzizP, @ViewBag.MasoodP, @ViewBag.ShafiqP, @ViewBag.SiawashP, @ViewBag.FardinP, @ViewBag.MirwaisP]
+            }, {
+                label: "Onhold Tickets",
+                backgroundColor: "rgba(255, 215, 0, 0.3)",
+                borderColor: "rgba(255, 3, 6, 0.0.3)",
+                pointBorderColor: "rgba(255, 88, 106, 0.70)",
+                pointBackgroundColor: "rgba(255, 88, 106, 0.70)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(255,0,205,1)",
+                pointBorderWidth: 1,
+                data: [@ViewBag.FarhadH, @ViewBag.MehdiH, @ViewBag.KhalidH, @ViewBag.NaserH, @ViewBag.AzizH, @ViewBag.MasoodH, @ViewBag.ShafiqH, @ViewBag.SiawashH, @ViewBag.FardinH, @ViewBag.MirwaisH]
+            }
+            ]
+        },
+    });
+
+      // Bar chart
+      var ctx = document.getElementById("mybarChart");
+      var mybarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"],
+            datasets: [{
+            label: '# All Tickets',
+            backgroundColor: "#68e2f8",
+            data: [@ViewBag.Farhad, @ViewBag.Mehdi, @ViewBag.Khalid, @ViewBag.Naser, @ViewBag.Aziz, @ViewBag.Masood, @ViewBag.Shafiq, @ViewBag.Siawash, @ViewBag.Fardin, @ViewBag.Mirwais]
+          }, {
+            label: '# Pending Tickets',
+            backgroundColor: "#FFD700",
+            data: [@ViewBag.FarhadP, @ViewBag.MehdiP, @ViewBag.KhalidP, @ViewBag.NaserP, @ViewBag.AzizP, @ViewBag.MasoodP, @ViewBag.ShafiqP, @ViewBag.SiawashP, @ViewBag.FardinP, @ViewBag.MirwaisP]
+          },{
+              label: '# Completed Tickets',
+              backgroundColor: "#9ACD32",
+              data: [@ViewBag.FarhadC, @ViewBag.MehdiC, @ViewBag.KhalidC, @ViewBag.NaserC, @ViewBag.AzizC, @ViewBag.MasoodC, @ViewBag.ShafiqC, @ViewBag.SiwashC, @ViewBag.FardinC, @ViewBag.MirwaisC]
+          },{
+              label: '# Onhold Tickets',
+              backgroundColor: "#696969",
+              data: [@ViewBag.FarhadH, @ViewBag.MehdiH, @ViewBag.KhalidH, @ViewBag.NaserH, @ViewBag.AzizH, @ViewBag.MasoodH, @ViewBag.ShafiqH, @ViewBag.SiawashH, @ViewBag.FardinH, @ViewBag.MirwaisH]
+          }
+            ]
+        },
+
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+
+    /*
+      // Doughnut chart
+      var ctx = document.getElementById("canvasDoughnut");
+      var data = {
+        labels: [
+          "Dark Grey",
+          "Purple Color",
+          "Gray Color",
+          "Green Color",
+          "Blue Color"
+        ],
+        datasets: [{
+          data: [120, 50, 140, 180, 100],
+          backgroundColor: [
+            "#455C73",
+            "#9B59B6",
+            "#BDC3C7",
+            "#26B99A",
+            "#3498DB"
+          ],
+          hoverBackgroundColor: [
+            "#34495E",
+            "#B370CF",
+            "#CFD4D8",
+            "#36CAAB",
+            "#49A9EA"
+          ]
+
+        }]
+      };
+
+      var canvasDoughnut = new Chart(ctx, {
+        type: 'doughnut',
+        tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+        data: data
+      });
+
+      // Radar chart
+      var ctx = document.getElementById("canvasRadar");
+      var data = {
+        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+        datasets: [{
+          label: "My First dataset",
+          backgroundColor: "rgba(3, 88, 106, 0.2)",
+          borderColor: "rgba(3, 88, 106, 0.80)",
+          pointBorderColor: "rgba(3, 88, 106, 0.80)",
+          pointBackgroundColor: "rgba(3, 88, 106, 0.80)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          data: [65, 59, 90, 81, 56, 55, 40]
+        }, {
+          label: "My Second dataset",
+          backgroundColor: "rgba(38, 185, 154, 0.2)",
+          borderColor: "rgba(38, 185, 154, 0.85)",
+          pointColor: "rgba(38, 185, 154, 0.85)",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(151,187,205,1)",
+          data: [28, 48, 40, 19, 96, 27, 100]
+        }]
+      };
+
+      var canvasRadar = new Chart(ctx, {
+        type: 'radar',
+        data: data,
+      });
+      */
+    // Pie chart
+    var ctx = document.getElementById("pieChart");
+    var data = {
+        datasets: [{
+            data: @ViewBag.ResTotalSupport,
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: 
+         @Html.Raw(ViewBag.ResponsibleName)
+        
+    };
+
+    var pieChart = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    //===========Minutes worked=====================//
+
+    var ctx = document.getElementById("pieChartMinutes");
+    var data = {
+        datasets: [{
+            data: [@ViewBag.FarhadMW, @ViewBag.MehdiMW, @ViewBag.KhalidMW, @ViewBag.NaserMW, @ViewBag.AzizMW, @ViewBag.MasoodMW, @ViewBag.ShafiqMW, @ViewBag.SiawashMW, @ViewBag.FardinMW, @ViewBag.MirwaisMW],
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: [
+         "Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"
+        ]
+    };
+
+    var pieChartMinutes = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    //=============Tickets assigned today==================//
+
+    var ctx = document.getElementById("pieChartTodayTickets");
+    var data = {
+        datasets: [{
+            data: @ViewBag.ResTotalToDay,
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: @Html.Raw(ViewBag.ResPonsibleNameToDay)
+    };
+
+    var pieChartTodayTickets = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    //============Total Minutes worked today===================//
+    var ctx = document.getElementById("pieChartTodayMinutesWorked");
+    var data = {
+        datasets: [{
+            data: [@ViewBag.FarhadMWTD, @ViewBag.MehdiMWTD, @ViewBag.KhalidMWTD, @ViewBag.NaserMWTD, @ViewBag.AzizMWTD, @ViewBag.MasoodMWTD, @ViewBag.ShafiqMWTD, @ViewBag.SiawashMWTD, @ViewBag.FardinMWTD, @ViewBag.MirwaisMWTD],
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: [
+         "Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"
+        ]
+    };
+
+    var pieChartTodayMinutesWorked = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    /*
+      // PolarArea chart
+      var ctx = document.getElementById("polarArea");
+      var data = {
+        datasets: [{
+          data: [120, 50, 140, 180, 100],
+          backgroundColor: [
+            "#455C73",
+            "#9B59B6",
+            "#BDC3C7",
+            "#26B99A",
+            "#3498DB"
+          ],
+          label: 'My dataset'
+        }],
+        labels: [
+          "Dark Gray",
+          "Purple",
+          "Gray",
+          "Green",
+          "Blue"
+        ]
+      };
+
+      var polarArea = new Chart(ctx, {
+        data: data,
+        type: 'polarArea',
+        options: {
+          scale: {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      */
+
+    setTimeout(function(){
+        window.location.reload(1);
+    }, 90000);
+</script>
+<!-- /Chart.js -->

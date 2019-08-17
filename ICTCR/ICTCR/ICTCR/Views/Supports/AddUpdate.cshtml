@@ -1,0 +1,153 @@
+﻿@model ICTCR.ViewModels.SupportsVM
+
+@{
+    ViewBag.Title = "AddUpdate";
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Update Ticket <small>* Means Required</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.RequesterFullName) :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.RequesterFullName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.RequesterEmail) :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.RequesterEmail)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Unit/Project
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.UnitProjectName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Support Type:
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.SupportTypeName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.TotalNumberOfSupport) :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.TotalNumberOfSupport)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Due Time to Complete: </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.DueTimeToComplete)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Assigned To:
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.ResponsibleFullName)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayNameFor(model => model.Remarks) :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Remarks)
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="table-responsive">
+
+                            @using (Html.BeginForm("AddUpdate", "Supports", FormMethod.Post, new { @class = "form-horizontal form-label-left input_mask" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.ResponsibleId)
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-6">Task Status:</label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownList("Sstatus", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+
+                                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Minutes Worked:</label>
+                                                <div class="col-md-6">
+                                                    <input type="number" name="MinutesWorked" id="MinutesWorked" min="1" class="form-control has-feedback-left" required="required" />
+
+                                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label class="control-label col-md-6">Additional comments:</label>
+                                            <div class="col-md-12">
+                                                <textarea name="AdditionalComments" id="AdditionalComments" class="form-control"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+
+                                            <input type="submit" value="Save" class="btn btn-success" style="float:right;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        </div>
+                        <p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>

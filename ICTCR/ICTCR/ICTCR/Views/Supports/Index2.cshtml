@@ -1,0 +1,324 @@
+﻿@model IEnumerable<ICTCR.ViewModels.SupportsVM>
+<div id="page">
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+
+            <div class="clearfix"></div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i> Open Search</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="display:none;">
+                        <div class="table-responsive">
+                            <form method="post">
+                                <table style="width:100%">
+                                    <tr>
+                                        <td>
+
+                                            <label class="control-label col-md-4">Unit/Project:</label>
+
+                                            <div style="margin:1px;">
+                                                @Html.DropDownList("ProjectOptions", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+                                            </div>
+
+                                        </td>
+                                        <td>
+
+                                            <label class="control-label col-md-4">Responsible:</label>
+
+                                            <div style="margin:1px;">
+                                                @Html.DropDownList("supportTeam", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <label class="control-label col-md-6">Start Date:</label>
+
+                                            <div style="margin:1px;">
+                                                <input type="text" name="REmail" id="REmail" class="form-control" />
+                                            </div>
+
+                                        </td>
+                                        <td>
+
+                                            <label class="control-label col-md-6">End Date:</label>
+
+                                            <div style="margin:1px;">
+                                                <input type="text" name="REmail" id="REmail" class="form-control" />
+
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <label class="control-label col-md-4">Status:</label>
+                                            <div style="margin:1px;">
+
+                                                @Html.DropDownList("Sstatus", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+                                            </div>
+
+                                        </td>
+                                        <td>
+
+                                            <label class="control-label col-md-4"></label>
+                                            <div style="margin-left:1px; margin-top:20%;">
+                                                <input type="submit" value="Search" class="btn btn-danger" />
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+
+                        @Html.ActionLink("Create Ticket", "Create", "Supports", null, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("All Tasks", "Index", "Supports", null, new { @class = "btn btn-info btn-xs" })
+                        @Html.ActionLink("Pending Tasks", "PendingTasks", "Supports", null, new { @class = "btn btn-warning btn-xs" })
+                        @Html.ActionLink("Onhold Tasks", "OnholdTasks", "Supports", null, new { @class = "btn btn-dark btn-xs" })
+                        @Html.ActionLink("Completed Tasks", "CompletedTasks", "Supports", null, new { @class = "btn btn-success btn-xs" })
+                        @Html.ActionLink("My Tickets", "MyTickets", "Supports", null, new { @class = "btn btn-danger btn-xs" })
+
+                        <a class="btn btn-success" style="float:right!important">Generate Report</a>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <!--<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>-->
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <!--<p>
+                           <a href="#" class="btn btn-primary">Book a Car</a>
+                        </p>-->
+                        <div class="table-responsive">
+
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">
+                                            Status
+                                        </th>
+                                        <th class="column-title">
+                                            Requester Full Name
+                                        </th>
+
+                                        <th class="column-title">
+                                            Unit/Project
+                                        </th>
+                                        <th class="column-title">
+                                            Support Name
+                                        </th>
+                                        <th class="column-title">
+                                            Cost Per Support
+                                        </th>
+
+                                        <th class="column-title">
+                                            Number of Support
+                                        </th>
+                                        <th class="column-title">
+                                            Total Estimated Cost (USD)
+                                        </th>
+                                        <th class="column-title">
+                                            Responsible/Cost Per Minute
+                                        </th>
+                                        <th>
+                                            Minutes Worked
+                                        </th>
+                                        <th>
+                                            Actual Cost
+                                        </th>
+                                        <th class="column-title">
+                                            SLA Due Date
+                                        </th>
+
+                                        <th>
+                                            SLA Brige
+                                        </th>
+
+
+
+                                        <th colspan="3">action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var CurrentTime = DateTime.Now;
+                                        var SLAB = "";
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        DateTime SLATimeToAction = item.DueTimeToComplete;
+
+                                        TimeSpan Span = CurrentTime.Subtract(SLATimeToAction);
+                                        var DaysOverDue = Span.Days;
+                                        var HoureOverDue = Span.Hours;
+                                        var MinutesOverDue = Span.Minutes;
+                                        var TD_style = "";
+                                        //------------------//
+                                        float days_over_due = 0;
+                                        float Houre_Over_due = 0;
+                                        float Minutes_Over_due = 0;
+
+                                        if (DaysOverDue > 0)
+                                        {
+                                            days_over_due = DaysOverDue;
+                                            Houre_Over_due = HoureOverDue;
+                                            Minutes_Over_due = MinutesOverDue;
+                                            TD_style = "style=background:#FF5050";
+                                        }
+                                        else if (HoureOverDue > 0)
+                                        {
+                                            days_over_due = 0;
+                                            Houre_Over_due = HoureOverDue;
+                                            Minutes_Over_due = MinutesOverDue;
+                                            TD_style = "style=background:#FF9900";
+                                        }
+                                        else if (MinutesOverDue > 0)
+                                        {
+                                            Minutes_Over_due = MinutesOverDue;
+                                            days_over_due = 0;
+                                            Houre_Over_due = 0;
+                                            TD_style = "style=background:#ffd800";
+                                        }
+                                        else
+                                        {
+                                            days_over_due = 0;
+                                            Houre_Over_due = 0;
+                                            Minutes_Over_due = 0;
+                                            TD_style = "style=background:#c2e827";
+                                        }
+
+                                        <tr>
+                                            <td>
+                                                @if (item.StatusId == 1)
+                                                {
+                                                    <a href="#" class="btn btn-warning btn-xs">Pending</a>
+                                                }
+                                                else if (item.StatusId == 2)
+                                                {
+                                                    <a href="#" class="btn btn-success btn-xs">Completed</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" class="btn btn-dark btn-xs">Onhold</a>
+                                                }
+
+                                            </td>
+                                            <td>
+
+                                                @Html.DisplayFor(modelItem => item.RequesterFullName)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitProjectName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SupportTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SupportTypeCost)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalNumberOfSupport)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SupportCost)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ResponsibleFullName) - ( @Html.DisplayFor(modelItem => item.CostPerMinute) USD)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MinutesWorked)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ActualCost)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DueTimeToComplete)
+                                            </td>
+                                            <td @TD_style>
+
+                                                @if (days_over_due > 0)
+                                                {
+                                                    <span style="color:#000000">
+                                                        D: @days_over_due
+                                                    </span>
+                                                }
+                                                else if (Houre_Over_due > 0)
+                                                {
+                                                    <span style="color:#000000">
+                                                        H: @Houre_Over_due
+                                                    </span>
+                                                }
+                                                else if (Minutes_Over_due > 0)
+                                                {
+                                                    <span style="color:#000000">
+                                                        M: @Minutes_Over_due
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color:#000000">
+
+                                                    </span>
+                                                }
+
+
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Add Update", "AddUpdate", new { id = item.Id })
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                            </td>
+                                        </tr>
+
+                                    }
+                                    <tr>
+                                        <td colspan="11">
+                                            @Html.Raw(ViewBag.link)
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

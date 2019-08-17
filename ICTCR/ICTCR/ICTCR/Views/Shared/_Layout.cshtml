@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UNDP Afghanistan Online ICT Ticketing System</title>
+    <!-- Bootstrap -->
+    <link href="~/Scripts/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Scripts/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/Scripts/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/Content/tp/css/custom.css" rel="stylesheet">
+    <script type="text/javascript" src="~/Content/JUI/jquery.js"></script>
+    <script>
+        function MJPaging(page, divname, starting, str) {
+            var ajax_image = "<img src='../Content/loading.GIF' >";
+            $('#' + divname).html(ajax_image);
+            var params = '&starting=' + starting + '&' + str;
+            $.ajax({
+                url: page,
+                type: "POST",
+                data: params,
+
+            })
+            .done(function (r) {
+
+                $('#' + divname).html(r);
+            });
+        }
+    </script>
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="#" class="site_title"><i class="fa fa-phone"></i> <span>ICT Call (9999)</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <!--<div class="profile">
+                        <div class="profile_pic">
+                            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                        </div>
+                        <div class="profile_info">
+                            <span>Welcome,</span>
+                            <h2>John Doe</h2>
+                        </div>
+                    </div>-->
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section4">
+                            <h3>@Html.ActionLink("Dashboard", "MinutesWorked", "Dashboard",null,new { @class="btn btn-info", @style="margin-left:18%;"})</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-home"></i> ICT Help Desk <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            @Html.ActionLink("Units/Projects", "Index", "Projects")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Status", "Index", "Status")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Support Type", "Index", "SupportTypes")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Support Team", "Index", "SupportTeams")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Create a Ticket", "Create", "Supports")
+                                        </li>
+                                        <li>
+
+                                            @Html.ActionLink("Ticket List", "Index", "Supports")
+                                        </li>
+                                   
+
+                                    </ul>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <!--<div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>-->
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav class="" role="navigation">
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li style="float:left">
+                                <a href="#">UNDP Afghanistan Online ICT Ticketing System</a>
+                            </li>
+
+
+                            <li class="">
+                                <a href="#">
+                                    <!--<img src="images/img.jpg" alt="">-->@User.Identity.Name
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- /top navigation -->
+            <!-- Page Content-->
+            @RenderBody()
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Designed and Developed By:<a href="#" class="colorpicker-hue">UNDP Afghanistan ICT</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <!--<script src="~/Scripts/vendors/jquery/dist/jquery.min.js"></script>-->
+  
+    <!-- Bootstrap -->
+    <script src="~/Scripts/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Scripts/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/Scripts/vendors/nprogress/nprogress.js"></script>
+    <!-- iCheck -->
+    <script src="~/Scripts/vendors/iCheck/icheck.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/Content/tp/js/custom.js"></script>
+</body>
+</html>

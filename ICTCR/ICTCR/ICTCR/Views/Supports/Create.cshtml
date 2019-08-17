@@ -1,0 +1,287 @@
+﻿@model ICTCR.Models.Supports
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+
+</style>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Create a Ticket <small>* Means Required</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        @using (Html.BeginForm("Create", "Supports", FormMethod.Post, new { @class = "form-horizontal form-label-left input_mask" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Unit/Project:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ProjectOptions", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    <button id="toggleProject">Show All Units/Projects</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Support Type:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("STypeOptions", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" }) 
+                         
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    <button id="toggle">Show All Support Types</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Total Number of Support:</label>
+                                <div class="col-md-10">
+                                    <input type="number" min="1" name="TotalNumberOfSupport" id="TotalNumberOfSupport" value="1" required="required" class="form-control has-feedback-left" />
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Responsible:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("supportTeam", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Task Start Date</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control has-feedback-left", @required = "required",@id = "datetimepicker12" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RequesterFullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.RequesterFullName, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.RequesterFullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RequesterEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.RequesterEmail, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.RequesterEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @Html.ActionLink("Cancel","Index",null,new { @class="btn btn-warning"})
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        
+                        }
+<!--
+                    <script type="text/javascript">
+                                    $('ducument').ready(function () {
+                                        $('#link1').removeClass('active');
+                                        $('#link2').addClass('active');
+                                    });
+                    </script>
+   
+
+                    -->
+
+                    <link rel="stylesheet" href="~/Scripts/DateTimePicker/jquery.datetimepicker.css" type="text/css" />
+                    <link rel="stylesheet" href="http://www.jqueryscript.net/css/jquerysctipttop.css" type="text/css" />
+                    <script type="text/javascript" src="~/Scripts/DateTimePicker/jquery.js"></script>
+                    <script type="text/javascript" src="~/Scripts/DateTimePicker/jquery.datetimepicker.full.min.js"></script>
+                    <script type="text/javascript" src="~/Scripts/DateTimePicker/datepicker.js"></script>
+   
+                        <!--==============For Auto complete=================-->
+                   
+                        <link href="~/Content/JUI/jquery-ui.css" rel="stylesheet" type="text/css" />
+                      
+                        <script type="text/javascript" src="~/Content/JUI/jquery-ui.js"></script>
+                        <script>
+  (function( $ ) {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass("form-control has-feedback-left")
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+
+      _removeIfInvalid: function( event, ui ) {
+
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  })( jQuery );
+
+  $(function() {
+      $("#STypeOptions").combobox();
+    $( "#toggle" ).click(function() {
+        $("#STypeOptions").toggle();
+    });
+  });
+
+  $(function () {
+      $("#ProjectOptions").combobox();
+      $("#toggleProject").click(function () {
+          $("#ProjectOptions").toggle();
+      });
+  });
+                        </script>
+                 
+    
+             

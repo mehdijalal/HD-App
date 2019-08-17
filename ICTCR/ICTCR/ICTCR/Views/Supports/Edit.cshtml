@@ -1,0 +1,125 @@
+﻿@model ICTCR.Models.Supports
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+
+</style>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Create a Ticket <small>* Means Required</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        @using (Html.BeginForm("Edit", "Supports", FormMethod.Post, new { @class = "form-horizontal form-label-left input_mask" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model=>model.CreatedDate)
+                            @Html.HiddenFor(model=>model.DueTimeToComplete)
+                            @Html.HiddenFor(model => model.CreatedBy)
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Unit/Project:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ProjectOptions", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    <button id="toggleProject">Show All Units/Projects</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Support Type:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("STypeOptions", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    <button id="toggle">Show All Support Types</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Total Number of Support:</label>
+                                <div class="col-md-10">
+                                    <input type="number" min="1" name="TotalNumberOfSupport" id="TotalNumberOfSupport" value="1" required="required" class="form-control has-feedback-left" />
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Responsible:</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("supportTeam", null, htmlAttributes: new { @class = "form-control has-feedback-left", @required = "required" })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Task Start Date</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control has-feedback-left", @required = "required", @id = "datetimepicker12" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RequesterFullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.RequesterFullName, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.RequesterFullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RequesterEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.RequesterEmail, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.RequesterEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control has-feedback-left" } })
+                                    <span class="fa fa-star form-control-feedback left" aria-hidden="true"></span>
+                                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    
+                                    @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-warning" })
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </div>
+
+                        }
+
+
+     
+
+

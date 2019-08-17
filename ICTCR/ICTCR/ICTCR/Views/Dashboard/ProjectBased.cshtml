@@ -1,0 +1,345 @@
+﻿@model IEnumerable<ICTCR.ViewModels.SupportChartVM>
+<script src="~/Scripts/vendors/Chart.js/dist/Chart.min.js"></script>
+
+<!-- /top navigation -->
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>
+                    Dashboard:
+                    <small>
+                      @Html.ActionLink("By Month", "Index", "Dashboard",null, new { @style="color:red; font-weight:bold"}) - 
+                      @Html.ActionLink("By Project", "ProjectBased", "Dashboard", null, new { @style = "color:green; font-weight:bold" }) - 
+                      @Html.ActionLink("By Team", "MinutesWorked", "Dashboard", null, new { @style = "color:orange; font-weight:bold" })
+                    </small>
+                </h3>
+            </div>
+
+            <!--<div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            -->
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-info-circle" style="color:#68e2f8"></i>
+                    </div>
+                    <div class="count" style="color:#68e2f8">@ViewBag.All_tickets_count</div>
+                    <h3>All Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "Index", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-gear" style="color:orange"></i>
+                    </div>
+                    <div class="count" style="color:orange">@ViewBag.All_pending_count</div>
+                    <h3>Pending Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "PendingTasks", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-meh-o" style="color:#808080"></i>
+                    </div>
+                    <div class="count">@ViewBag.All_onhold_count</div>
+                    <h3>Onhold Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "OnholdTasks", "Supports")</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon">
+                        <i class="fa fa-star" style="color:#a0cf51"></i>
+                    </div>
+                    <div class="count" style="color:#a0cf51">@ViewBag.All_completed_count</div>
+                    <h3>Completed Tickets</h3>
+                    <p>@Html.ActionLink("View Details", "CompletedTasks", "Supports")</p>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <table class="table table-bordered table-striped">
+                    <tr>
+     
+                        <th>
+                            Unit/Project Name
+                        </th>
+                        <th>
+                            Total Support
+                        </th>
+             
+                    </tr>
+                
+                    @foreach(var items in Model)
+                    {
+                        <tr>
+                         
+                            <td>@Html.DisplayFor(modelItem => items.ProjectName)</td>
+                            <td>@Html.DisplayFor(modelItem => items.TotalSupport)</td>
+                        </tr>
+
+                        
+                    }
+
+                </table>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Tickets <small>From begaining of <b>( @DateTime.Now.Year )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartMinutes"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Assigned <small>From begaining of <b>( @DateTime.Now )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartTodayTickets"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Total Minutes Worked <small>From begaining of <b>( @DateTime.Now )</b></small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartTodayMinutesWorked"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /page content -->
+<!-- Chart.js -->
+<script>
+    Chart.defaults.global.legend = {
+        enabled: false
+    };
+
+    //===========Minutes worked=====================//
+
+    var ctx = document.getElementById("pieChartMinutes");
+    var data = {
+        datasets: [{
+            data: @ViewBag.TotalSupport,
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: 
+        @Html.Raw(ViewBag.ProjectName)
+        
+    };
+
+    var pieChartMinutes = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    //=============Tickets assigned today==================//
+
+    var ctx = document.getElementById("pieChartTodayTickets");
+    var data = {
+        datasets: [{
+            data: [@ViewBag.FarhadTDA, @ViewBag.MehdiTDA, @ViewBag.KhalidTDA, @ViewBag.NaserTDA, @ViewBag.AzizTDA, @ViewBag.MasoodTDA, @ViewBag.ShafiqTDA, @ViewBag.SiawashTDA, @ViewBag.FardinTDA, @ViewBag.MirwaisTDA],
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: [
+         "Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"
+        ]
+    };
+
+    var pieChartTodayTickets = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    //============Total Minutes worked today===================//
+    var ctx = document.getElementById("pieChartTodayMinutesWorked");
+    var data = {
+        datasets: [{
+            data: [@ViewBag.FarhadMWTD, @ViewBag.MehdiMWTD, @ViewBag.KhalidMWTD, @ViewBag.NaserMWTD, @ViewBag.AzizMWTD, @ViewBag.MasoodMWTD, @ViewBag.ShafiqMWTD, @ViewBag.SiawashMWTD, @ViewBag.FardinMWTD, @ViewBag.MirwaisMWTD],
+            backgroundColor: [
+              "#455C73",
+              "#26B99A",
+              "#BDC3C7",
+              "#ECD99A",
+              "#3498DB",
+              "#fc7070",
+              "#ffd800",
+              "#b6ff00",
+              "#ff006e"
+            ],
+            label: 'My dataset' // for legend
+        }],
+        labels: [
+         "Farhad Toghian", "Mehdi Jalal", "Husain Ahmad Khalid", "Naser Ahamd Sayar", "Abdul Aziz Farid", "Masood Sadat", "Shafiqullah Hamdard", "Siawash Safi", "Fardin Sabit", "Mirwais Noori"
+        ]
+    };
+
+    var pieChartTodayMinutesWorked = new Chart(ctx, {
+        data: data,
+        type: 'pie',
+        otpions: {
+            legend: false
+        }
+    });
+
+    /*
+      // PolarArea chart
+      var ctx = document.getElementById("polarArea");
+      var data = {
+        datasets: [{
+          data: [120, 50, 140, 180, 100],
+          backgroundColor: [
+            "#455C73",
+            "#9B59B6",
+            "#BDC3C7",
+            "#26B99A",
+            "#3498DB"
+          ],
+          label: 'My dataset'
+        }],
+        labels: [
+          "Dark Gray",
+          "Purple",
+          "Gray",
+          "Green",
+          "Blue"
+        ]
+      };
+
+      var polarArea = new Chart(ctx, {
+        data: data,
+        type: 'polarArea',
+        options: {
+          scale: {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      */
+</script>
+<!-- /Chart.js -->
